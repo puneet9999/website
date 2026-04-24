@@ -1,0 +1,282 @@
+:root{
+  /* Construction-themed color palette */
+  --accent:#d97d53;           /* Burnt orange - construction/brick */
+  --accent-dark:#a0562e;      /* Dark brown - foundation/earth */
+  --accent-light:#f4a582;     /* Light orange - highlights */
+  --muted:#5a4a3a;            /* Dark taupe - concrete */
+  --bg:#f9f7f5;               /* Warm off-white - cement */
+  --max-width:1100px;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color:#222;
+  background:var(--bg);
+  line-height:1.5;
+}
+
+/* Full-page fixed background image for construction builder theme
+   Uses :before so the image stays behind content */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url('/assets/images/professional-construction-bg.svg');
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  z-index:-1;
+  filter:brightness(0.95) contrast(1.05);
+  transform:translateZ(0);
+}
+
+.container{max-width:var(--max-width);margin:0 auto;padding:0 16px}
+
+.site-header{background:#0b0b0b;color:#fff}
+.header-inner{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:18px 0}
+.brand h1{margin:0;font-size:20px}
+.brand .tag{margin:0;font-size:12px;color:rgba(255,255,255,0.85)}
+.main-nav a{color:#fff;margin:0 10px;text-decoration:none;font-weight:600}
+.main-nav a:last-child{background:var(--accent);padding:6px 12px;border-radius:4px;font-size:14px}
+.cta{background:var(--accent);color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none}
+
+.hero{background:transparent;padding:64px 0;color:#fff}
+.hero-inner{display:flex;align-items:center;gap:24px}
+.hero-copy h2{font-size:32px;margin:0 0 8px}
+.hero-copy p{margin:0 0 16px;color:rgba(255,255,255,0.95)}
+.hero-cta .btn{margin-right:8px}
+.hero-stats{display:flex;gap:12px;margin-left:auto}
+.stat{background:rgba(0,0,0,0.5);padding:12px 16px;border-radius:8px;text-align:center}
+.stat strong{display:block;font-size:20px}
+
+.section{padding:48px 0}
+.about p{max-width:800px;margin:8px auto;color:#222}
+
+.highlights .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+.card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,0.08)}
+.card img{width:100%;height:160px;object-fit:cover}
+.card h4{margin:12px 16px 4px;color:#111}
+.card p{margin:0 16px 16px;color:var(--muted);font-size:14px}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.contact-form input,.contact-form textarea,.contact-form select{width:100%;padding:10px;border-radius:6px;border:1px solid #cfcfcf;margin-bottom:10px;color:#111}
+.contact-form .btn{display:inline-block;background:var(--accent);color:#fff;padding:10px 14px;border-radius:6px;border:none}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:#888}
+.contact-form select{background:#fff}
+
+.site-footer{background:#0b0b0b;color:#fff;padding:18px 0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+.site-footer a{color:#fff;text-decoration:none;margin-left:12px}
+
+/* Construction-themed color system
+   theme-1: Burnt Orange (Brick/Masonry)
+   theme-2: Dark Taupe (Concrete/Foundation)
+/* Construction-themed color system - REMOVED
+   Using clean white backgrounds instead for better readability
+*/
+
+/* responsive */
+@media(max-width:900px){
+  .hero-inner{flex-direction:column;text-align:center}
+  .hero-stats{margin-left:0}
+  .highlights .cards{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .main-nav{display:none}
+}
+
+@media(max-width:480px){
+  .hero-copy h2{font-size:22px}
+}
+
+/* ONE STOP */
+.one-stop .lead{max-width:900px;margin:8px auto 18px;color:#333}
+.one-stop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feature{background:#fff;padding:12px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06);text-align:left}
+.feature img{width:100%;height:140px;object-fit:cover;border-radius:6px}
+.feature h4{margin:10px 0 6px}
+
+.whom-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.who{background:#fff;padding:12px 18px;border-radius:999px;box-shadow:0 6px 12px rgba(0,0,0,0.04);font-weight:600}
+
+/* All sections now use clean white background */
+.container.section{
+  background-color: #fff;
+  color: #222;
+  padding: 48px 0;
+}
+
+/* Section heading colors - dark text */
+.container.section h2,
+.container.section h3,
+.container.section h4{
+  color: #111;
+}
+
+.container.section p{
+  color: #333;
+}
+
+/* Cards in sections remain white */
+.container.section .card{
+  background: #fff;
+  color: #222;
+}
+
+/* services tabs */
+.tabs{margin-top:18px}
+.tab-list{display:flex;gap:8px;flex-wrap:wrap}
+.tab{background:#fff;border:1px solid #ddd;padding:8px 14px;border-radius:8px;cursor:pointer;color:#222}
+.tab:focus{outline:3px solid rgba(201,74,47,0.2);outline-offset:2px}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-panels{background:#fff;padding:16px;border-radius:8px;margin-top:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.take-care .checklist{list-style:none;padding:0;max-width:900px;margin:12px auto;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.checklist li{background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 14px rgba(0,0,0,0.06);color:#222}
+
+.promises-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.promise{background:#fff;padding:14px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+
+/* focus styles for interactive controls */
+.btn, .cta, .tab, .contact-form input, .contact-form textarea, .main-nav a{transition:box-shadow .15s,transform .08s}
+.btn:focus, .cta:focus, .tab:focus, .contact-form input:focus, .contact-form textarea:focus, .main-nav a:focus{box-shadow:0 0 0 4px rgba(201,74,47,0.12);outline:none}
+
+.muted{color:var(--muted)}
+
+/* Service Pages Styles */
+.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.process-step{background:rgba(255,255,255,0.12);padding:16px;border-radius:8px;text-align:center}
+.step-number{display:inline-block;width:40px;height:40px;background:rgba(255,255,255,0.25);border-radius:50%;line-height:40px;font-weight:700;margin-bottom:8px}
+
+.inclusions{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.inc-col{background:rgba(255,255,255,0.12);padding:14px;border-radius:8px}
+.inc-col h4{margin-top:0;color:#fff}
+.inc-col ul{margin:8px 0;padding-left:20px}
+.inc-col li{margin:4px 0;color:rgba(255,255,255,0.95)}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.price-card{background:rgba(255,255,255,0.12);padding:16px;border-radius:8px;text-align:center}
+.price-card .price{font-size:24px;font-weight:700;color:#fff;margin:8px 0}
+
+.renovation-types,.farmhouse-options{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+.reno-type,.option{background:rgba(255,255,255,0.12);padding:14px;border-radius:8px}
+.option .price{font-weight:600;color:rgba(255,255,255,0.95)}
+
+.challenges{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+.challenge{background:rgba(255,255,255,0.12);padding:14px;border-radius:8px}
+
+.nri-features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.nri-features .feature{background:rgba(255,255,255,0.12);padding:14px;border-radius:8px}
+
+.model-explainer{display:flex;align-items:center;gap:16px;margin-top:16px}
+.model-step{background:rgba(255,255,255,0.12);padding:12px;border-radius:8px;flex:1}
+.model-arrow{font-size:24px;font-weight:700}
+
+.models{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.model{background:rgba(255,255,255,0.12);padding:16px;border-radius:8px}
+
+.approach-list{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+.approach-item{background:rgba(255,255,255,0.12);padding:14px;border-radius:8px}
+
+/* Properties Page */
+.filter-tabs{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
+.filter-btn{background:#fff;border:1px solid #ddd;padding:8px 14px;border-radius:8px;cursor:pointer;color:#222;font-weight:600}
+.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.properties-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:16px}
+.property-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,0.08)}
+.property-image{width:100%;height:200px;background-size:cover;background-position:center}
+.property-details{padding:14px}
+.status{display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;margin-bottom:8px}
+.status.delivered{background:#d4edda;color:#155724}
+.status.ongoing{background:#fff3cd;color:#856404}
+.status.upcoming{background:#d1ecf1;color:#0c5460}
+.property-card h4{margin:0 0 8px}
+.property-card p{margin:4px 0;color:var(--muted);font-size:13px}
+.btn-small{display:inline-block;padding:6px 12px;background:var(--accent);color:#fff;border-radius:4px;text-decoration:none;font-size:12px}
+
+/* Gallery Page */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:16px}
+.gallery-item{position:relative;border-radius:8px;overflow:hidden;height:250px;box-shadow:0 8px 22px rgba(0,0,0,0.08)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);color:#fff;padding:8px;font-size:13px}
+
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:16px}
+.video-placeholder{position:relative;width:100%;height:250px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.play-btn{display:inline-block;width:60px;height:60px;background:var(--accent);border-radius:50%;line-height:60px;text-align:center;color:#fff;font-size:24px;text-decoration:none;transition:background .2s}
+.play-btn:hover{background:rgba(201,74,47,0.85)}
+.video-placeholder p{position:absolute;bottom:12px;left:0;right:0;text-align:center;color:#fff;margin:0}
+
+/* About Page */
+.mission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.mission-card{background:#fff;padding:16px;border-radius:8px;box-shadow:0 8px 22px rgba(0,0,0,0.08)}
+.mission-card ul{margin:8px 0;padding-left:20px}
+.mission-card li{margin:6px 0;color:#222}
+
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.stat-card{background:#fff;padding:20px;border-radius:8px;text-align:center;box-shadow:0 8px 22px rgba(0,0,0,0.08)}
+.stat-card h3{margin:0;font-size:28px;color:var(--accent)}
+
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.team-member{background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 22px rgba(0,0,0,0.08)}
+
+/* Contact Page */
+.contact-info{background:rgba(255,255,255,0.12);padding:16px;border-radius:8px;margin-bottom:20px}
+.info-block{margin:12px 0}
+.info-block h4{margin:0 0 6px;color:#fff}
+.info-block p{margin:2px 0;color:rgba(255,255,255,0.95)}
+.info-block a{color:#fff;text-decoration:none}
+
+.faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.faq-item{background:rgba(255,255,255,0.12);padding:12px;border-radius:8px}
+.faq-item h4{margin:0 0 8px;color:#fff}
+.faq-item p{margin:0;color:rgba(255,255,255,0.95);font-size:14px}
+
+.service-areas{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.area{background:rgba(255,255,255,0.12);padding:12px;border-radius:8px;text-align:center}
+
+/* Services Hub Page */
+.services-showcase{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.service-card{background:rgba(255,255,255,0.12);padding:16px;border-radius:8px;text-align:center;transition:transform .2s}
+.service-card:hover{transform:translateY(-4px)}
+.service-icon{font-size:32px;margin-bottom:8px}
+
+.service-process{display:flex;align-items:center;gap:12px;margin-top:12px}
+.proc-step{background:rgba(255,255,255,0.12);padding:12px;border-radius:8px;flex:1;text-align:center}
+.proc-num{display:inline-block;width:32px;height:32px;background:rgba(255,255,255,0.25);border-radius:50%;line-height:32px;font-weight:700;margin-bottom:6px}
+.proc-arrow{font-size:20px;font-weight:700}
+
+/* Responsive adjustments */
+@media(max-width:900px){
+  .one-stop-grid{grid-template-columns:1fr}
+  .promises-grid{grid-template-columns:1fr 1fr}
+  .take-care .checklist{grid-template-columns:1fr}
+  .process-grid{grid-template-columns:1fr}
+  .inclusions{grid-template-columns:1fr 1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .renovation-types,.farmhouse-options{grid-template-columns:1fr}
+  .nri-features{grid-template-columns:1fr}
+  .models{grid-template-columns:1fr}
+  .approach-list{grid-template-columns:1fr}
+  .mission-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .team-grid{grid-template-columns:1fr}
+  .faq-grid{grid-template-columns:1fr}
+  .service-areas{grid-template-columns:1fr}
+  .services-showcase{grid-template-columns:1fr}
+  .service-process{flex-direction:column}
+  .model-explainer{flex-direction:column}
+  .testimonials-grid{grid-template-columns:1fr}
+}
+
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:32px 0}
+.testimonial{background:#fff;padding:24px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.testimonial .stars{color:#FFB800;font-size:18px;margin-bottom:12px}
+.testimonial p{margin:12px 0;color:#555}
+.testimonial h4{margin:16px 0 4px;color:#222}
+.testimonial .client-detail{font-size:13px;color:#999}
+.btn-outline{background:transparent;border:2px solid var(--accent);color:var(--accent)}

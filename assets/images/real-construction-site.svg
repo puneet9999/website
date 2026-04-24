@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1440" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#E0F6FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFF8DC;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buildGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a0805a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="steelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#808080;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#505050;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="1920" height="1440" fill="url(#skyGrad)"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="1000" width="1920" height="440" fill="#c9b59a"/>
+  <rect x="0" y="1050" width="1920" height="390" fill="#b8a887"/>
+  
+  <!-- Main building under construction - Center/Left -->
+  <g id="main-building">
+    <!-- Building structure -->
+    <rect x="200" y="500" width="700" height="550" fill="url(#buildGrad)" stroke="#8b7355" stroke-width="3"/>
+    
+    <!-- Floors/levels -->
+    <line x1="200" y1="600" x2="900" y2="600" stroke="#666" stroke-width="4"/>
+    <line x1="200" y1="720" x2="900" y2="720" stroke="#666" stroke-width="4"/>
+    <line x1="200" y1="840" x2="900" y2="840" stroke="#666" stroke-width="4"/>
+    <line x1="200" y1="960" x2="900" y2="960" stroke="#666" stroke-width="4"/>
+    
+    <!-- Vertical supports -->
+    <line x1="350" y1="500" x2="350" y2="1050" stroke="#666" stroke-width="5" opacity="0.8"/>
+    <line x1="520" y1="500" x2="520" y2="1050" stroke="#666" stroke-width="5" opacity="0.8"/>
+    <line x1="690" y1="500" x2="690" y2="1050" stroke="#666" stroke-width="5" opacity="0.8"/>
+    
+    <!-- Window openings -->
+    <rect x="250" y="550" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="400" y="550" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="550" y="550" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="700" y="550" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    
+    <rect x="250" y="670" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="400" y="670" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="550" y="670" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="700" y="670" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    
+    <rect x="250" y="790" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="400" y="790" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="550" y="790" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="700" y="790" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    
+    <rect x="250" y="910" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="400" y="910" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="550" y="910" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+    <rect x="700" y="910" width="60" height="40" fill="#87CEEB" opacity="0.6"/>
+  </g>
+  
+  <!-- Crane - Center -->
+  <g id="crane">
+    <rect x="850" y="200" width="20" height="750" fill="url(#steelGrad)" stroke="#333" stroke-width="2"/>
+    
+    <!-- Crane jib (horizontal arm) -->
+    <rect x="650" y="180" width="400" height="20" fill="url(#steelGrad)" stroke="#333" stroke-width="2"/>
+    
+    <!-- Pulley -->
+    <circle cx="860" cy="200" r="12" fill="#FFD700" stroke="#333" stroke-width="2"/>
+    
+    <!-- Cable -->
+    <line x1="860" y1="215" x2="700" y2="850" stroke="#999" stroke-width="3" stroke-dasharray="8,4" opacity="0.7"/>
+  </g>
+  
+  <!-- Secondary building - Right side -->
+  <g id="secondary-building">
+    <rect x="1200" y="650" width="600" height="400" fill="url(#buildGrad)" stroke="#8b7355" stroke-width="3"/>
+    
+    <!-- Steel frame -->
+    <line x1="1300" y1="650" x2="1300" y2="1050" stroke="#555" stroke-width="6"/>
+    <line x1="1500" y1="650" x2="1500" y2="1050" stroke="#555" stroke-width="6"/>
+    <line x1="1700" y1="650" x2="1700" y2="1050" stroke="#555" stroke-width="6"/>
+    
+    <!-- Horizontal beams -->
+    <line x1="1200" y1="750" x2="1800" y2="750" stroke="#666" stroke-width="4"/>
+    <line x1="1200" y1="850" x2="1800" y2="850" stroke="#666" stroke-width="4"/>
+    <line x1="1200" y1="950" x2="1800" y2="950" stroke="#666" stroke-width="4"/>
+  </g>
+  
+  <!-- Scaffolding - Left side -->
+  <g id="scaffolding" opacity="0.7">
+    <rect x="100" y="700" width="80" height="200" fill="#FF8C00" stroke="#CC6600" stroke-width="2"/>
+    <line x1="100" y1="750" x2="180" y2="750" stroke="#CC6600" stroke-width="2"/>
+    <line x1="100" y1="800" x2="180" y2="800" stroke="#CC6600" stroke-width="2"/>
+    <line x1="100" y1="850" x2="180" y2="850" stroke="#CC6600" stroke-width="2"/>
+  </g>
+  
+  <!-- Workers (small figures) -->
+  <g id="workers">
+    <circle cx="450" cy="900" r="8" fill="#FF6B6B"/>
+    <circle cx="620" cy="950" r="8" fill="#FF6B6B"/>
+    <circle cx="1400" cy="820" r="8" fill="#FF6B6B"/>
+    <circle cx="1600" cy="880" r="8" fill="#FF6B6B"/>
+  </g>
+  
+  <!-- Construction materials - stacked -->
+  <g id="materials">
+    <rect x="1000" y="980" width="120" height="70" fill="#8B7355" stroke="#654321" stroke-width="2"/>
+    <rect x="1015" y="960" width="90" height="30" fill="#A0805A" stroke="#654321" stroke-width="2"/>
+    <rect x="1140" y="980" width="100" height="70" fill="#D3D3D3" stroke="#999" stroke-width="2"/>
+  </g>
+  
+  <!-- Sun -->
+  <circle cx="1700" cy="150" r="80" fill="#FFD700" opacity="0.8"/>
+  <circle cx="1700" cy="150" r="75" fill="#FFA500" opacity="0.6"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="300" cy="200" rx="100" ry="50" fill="#FFF" opacity="0.7"/>
+  <ellipse cx="1600" cy="300" rx="140" ry="60" fill="#FFF" opacity="0.6"/>
+  <ellipse cx="500" cy="400" rx="120" ry="45" fill="#FFF" opacity="0.65"/>
+</svg>

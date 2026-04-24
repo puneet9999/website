@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal — Shiwari Builders</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #d97d53 0%, #a0562e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d97d53 0%, #a0562e 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(217, 125, 83, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f8f8;
+            color: #1a1a1a;
+            border: 1px solid #e8e8e8;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+
+        .credentials {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .credentials strong {
+            color: #1a1a1a;
+        }
+
+        .credentials p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .status.success {
+            background: #efe;
+            color: #3c3;
+            border-left: 4px solid #3c3;
+        }
+
+        .status.info {
+            background: #eff;
+            color: #33c;
+            border-left: 4px solid #33c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Admin Portal</h1>
+        <p>Welcome to Shiwari Builders Admin Management System</p>
+
+        <div class="credentials">
+            <strong>Login Credentials:</strong>
+            <p>Username: <strong>admin</strong></p>
+            <p>Password: <strong>admin</strong></p>
+        </div>
+
+        <div class="buttons">
+            <a href="/admin-login.html" class="btn btn-primary">
+                🔓 Go to Login Page
+            </a>
+            <button class="btn btn-primary" onclick="autoLogin()">
+                ✓ Auto-Login & Enter Dashboard
+            </button>
+            <a href="/" class="btn btn-secondary">
+                ← Back to Website
+            </a>
+        </div>
+
+        <div class="status info" id="statusMessage" style="display: none;"></div>
+    </div>
+
+    <script>
+        function autoLogin() {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = '⏳ Logging in automatically... Redirecting to dashboard...';
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'status info';
+
+            // Set session storage
+            sessionStorage.setItem('adminLoggedIn', 'true');
+            sessionStorage.setItem('adminUsername', 'admin');
+
+            // Redirect after 1 second
+            setTimeout(() => {
+                window.location.href = '/admin-dashboard.html';
+            }, 1000);
+        }
+
+        // Check if already logged in
+        window.addEventListener('load', () => {
+            if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+                const statusDiv = document.getElementById('statusMessage');
+                statusDiv.textContent = '✓ Already logged in! You can proceed to the dashboard.';
+                statusDiv.style.display = 'block';
+                statusDiv.className = 'status success';
+            }
+        });
+    </script>
+</body>
+</html>

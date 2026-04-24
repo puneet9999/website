@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1440" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e5e5e5" stroke-width="0.5"/>
+    </pattern>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f0f0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c19a6b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="1920" height="1440" fill="url(#skyGradient)"/>
+  
+  <!-- Grid pattern for construction site feel -->
+  <rect width="1920" height="1440" fill="url(#grid)"/>
+  
+  <!-- Building under construction - Left -->
+  <g id="building-left">
+    <rect x="100" y="800" width="400" height="640" fill="url(#buildingGradient)" stroke="#8b7355" stroke-width="2"/>
+    <!-- Construction girders -->
+    <line x1="150" y1="800" x2="150" y2="1440" stroke="#666" stroke-width="3" opacity="0.6"/>
+    <line x1="250" y1="800" x2="250" y2="1440" stroke="#666" stroke-width="3" opacity="0.6"/>
+    <line x1="350" y1="800" x2="350" y2="1440" stroke="#666" stroke-width="3" opacity="0.6"/>
+    <line x1="450" y1="800" x2="450" y2="1440" stroke="#666" stroke-width="3" opacity="0.6"/>
+    
+    <!-- Window openings -->
+    <rect x="130" y="850" width="50" height="50" fill="#87CEEB" opacity="0.5"/>
+    <rect x="230" y="850" width="50" height="50" fill="#87CEEB" opacity="0.5"/>
+    <rect x="330" y="850" width="50" height="50" fill="#87CEEB" opacity="0.5"/>
+    <rect x="130" y="970" width="50" height="50" fill="#87CEEB" opacity="0.5"/>
+    <rect x="230" y="970" width="50" height="50" fill="#87CEEB" opacity="0.5"/>
+    <rect x="330" y="970" width="50" height="50" fill="#87CEEB" opacity="0.5"/>
+  </g>
+  
+  <!-- Crane -->
+  <g id="crane" opacity="0.4">
+    <rect x="550" y="300" width="15" height="650" fill="#ffa500" stroke="#ff8c00" stroke-width="2"/>
+    <rect x="450" y="290" width="150" height="15" fill="#ffa500" stroke="#ff8c00" stroke-width="2"/>
+    <circle cx="630" cy="308" r="8" fill="#333"/>
+    <!-- Cable -->
+    <line x1="630" y1="318" x2="620" y2="700" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+  </g>
+  
+  <!-- Building under construction - Right -->
+  <g id="building-right">
+    <rect x="1420" y="900" width="400" height="540" fill="url(#buildingGradient)" stroke="#8b7355" stroke-width="2"/>
+    <!-- Steel frame -->
+    <line x1="1470" y1="900" x2="1470" y2="1440" stroke="#888" stroke-width="4" opacity="0.7"/>
+    <line x1="1570" y1="900" x2="1570" y2="1440" stroke="#888" stroke-width="4" opacity="0.7"/>
+    <line x1="1670" y1="900" x2="1670" y2="1440" stroke="#888" stroke-width="4" opacity="0.7"/>
+    <line x1="1770" y1="900" x2="1770" y2="1440" stroke="#888" stroke-width="4" opacity="0.7"/>
+    
+    <!-- Floors -->
+    <line x1="1420" y1="1020" x2="1820" y2="1020" stroke="#999" stroke-width="3"/>
+    <line x1="1420" y1="1140" x2="1820" y2="1140" stroke="#999" stroke-width="3"/>
+    <line x1="1420" y1="1260" x2="1820" y2="1260" stroke="#999" stroke-width="3"/>
+  </g>
+  
+  <!-- Scaffolding -->
+  <g id="scaffolding" opacity="0.3">
+    <line x1="900" y1="400" x2="1100" y2="400" stroke="#cc6600" stroke-width="4"/>
+    <line x1="900" y1="500" x2="1100" y2="500" stroke="#cc6600" stroke-width="4"/>
+    <line x1="900" y1="600" x2="1100" y2="600" stroke="#cc6600" stroke-width="4"/>
+    <line x1="920" y1="400" x2="920" y2="600" stroke="#cc6600" stroke-width="3"/>
+    <line x1="1000" y1="400" x2="1000" y2="600" stroke="#cc6600" stroke-width="3"/>
+    <line x1="1080" y1="400" x2="1080" y2="600" stroke="#cc6600" stroke-width="3"/>
+  </g>
+  
+  <!-- Safety barriers -->
+  <g id="safety-barriers">
+    <line x1="1200" y1="1200" x2="1300" y2="1200" stroke="#ff0000" stroke-width="3" stroke-dasharray="10,10"/>
+    <line x1="1300" y1="1200" x2="1300" y2="1350" stroke="#ff0000" stroke-width="3"/>
+  </g>
+  
+  <!-- Dust/haze effect -->
+  <rect width="1920" height="1440" fill="#ffffff" opacity="0.05"/>
+</svg>

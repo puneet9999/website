@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Cost Calculator — Shiwari Builders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="modern-style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <h1>Shiwari Builders</h1>
+                    <p class="tagline">Building Dreams Into Reality</p>
+                </div>
+                <nav class="nav">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/about.html" class="nav-link">About</a>
+                    <a href="/services.html" class="nav-link">Services</a>
+                    <a href="/projects.html" class="nav-link">Projects</a>
+                    <a href="/properties.html" class="nav-link">Properties</a>
+                    <a href="/contact.html" class="nav-link">Contact</a>
+                </nav>
+                <a href="/calculator.html" class="btn btn-primary">Get an Estimate</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- PAGE HEADER -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Construction Cost Calculator</h1>
+                <p>
+                    Get an instant estimate for your construction project.
+                    <br>
+                    Use our easy-to-use calculator to understand project costs.
+                </p>
+            </div>
+        </section>
+
+        <!-- CALCULATOR SECTION -->
+        <section class="calculator-section">
+            <div class="container">
+                <div class="calculator-grid">
+                    <!-- LEFT: FORM -->
+                    <div class="calculator-form">
+                        <h2>Calculate Your Project Cost</h2>
+
+                        <!-- FORM GROUP 1: BUILT-UP AREA -->
+                        <div class="form-group">
+                            <label for="builtUpArea">
+                                <strong>Built-Up Area (sq ft)</strong>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="builtUpArea" 
+                                placeholder="Enter built-up area in sq ft"
+                                value="2000"
+                                min="500"
+                                max="10000"
+                            >
+                            <small>Enter the total built-up area of your project</small>
+                        </div>
+
+                        <!-- FORM GROUP 2: CONSTRUCTION TYPE -->
+                        <div class="form-group">
+                            <label for="constructionType">
+                                <strong>Construction Type</strong>
+                            </label>
+                            <select id="constructionType">
+                                <option value="">-- Select Construction Type --</option>
+                                <option value="basic">Basic (₹1,500/sq ft)</option>
+                                <option value="standard">Standard (₹2,000/sq ft)</option>
+                                <option value="premium">Premium (₹2,500/sq ft)</option>
+                                <option value="luxury">Luxury (₹3,500/sq ft)</option>
+                            </select>
+                            <small>Choose the quality and finish level for your project</small>
+                        </div>
+
+                        <!-- FORM GROUP 3: PROJECT TYPE -->
+                        <div class="form-group">
+                            <label for="projectType">
+                                <strong>Project Type</strong>
+                            </label>
+                            <select id="projectType">
+                                <option value="">-- Select Project Type --</option>
+                                <option value="residential">Residential (Home)</option>
+                                <option value="apartment">Apartment Building</option>
+                                <option value="commercial">Commercial Space</option>
+                                <option value="renovation">Renovation</option>
+                                <option value="mixed">Mixed-Use Development</option>
+                            </select>
+                            <small>Select the type of construction project</small>
+                        </div>
+
+                        <!-- FORM GROUP 4: LOCATION -->
+                        <div class="form-group">
+                            <label for="location">
+                                <strong>Location</strong>
+                            </label>
+                            <select id="location">
+                                <option value="">-- Select Location --</option>
+                                <option value="faridabad">Faridabad (Base Rate)</option>
+                                <option value="gurgaon">Gurgaon (+10%)</option>
+                                <option value="delhi">Delhi NCR (+15%)</option>
+                            </select>
+                            <small>Location affects the construction cost due to local rates</small>
+                        </div>
+
+                        <!-- FORM GROUP 5: ADDITIONAL OPTIONS -->
+                        <div class="form-group">
+                            <label>
+                                <strong>Additional Features</strong>
+                            </label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="parking" value="50000">
+                                    <span>Parking Space</span>
+                                    <span class="checkbox-cost">(+₹50,000)</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="garden" value="75000">
+                                    <span>Landscaping & Garden</span>
+                                    <span class="checkbox-cost">(+₹75,000)</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="security" value="100000">
+                                    <span>Security System</span>
+                                    <span class="checkbox-cost">(+₹100,000)</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="pool" value="200000">
+                                    <span>Swimming Pool</span>
+                                    <span class="checkbox-cost">(+₹200,000)</span>
+                                </label>
+                            </div>
+                            <small>Select any additional features for your project</small>
+                        </div>
+
+                        <!-- FORM ACTIONS -->
+                        <div class="form-actions">
+                            <button class="btn btn-primary btn-lg" onclick="calculateCost()">
+                                Calculate Cost
+                            </button>
+                            <button class="btn btn-secondary btn-lg" onclick="resetForm()">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: RESULTS -->
+                    <div class="calculator-results">
+                        <div class="results-card hidden" id="resultsCard">
+                            <h2>Cost Breakdown</h2>
+
+                            <!-- MAIN COST -->
+                            <div class="result-item highlight">
+                                <span class="result-label">Base Construction Cost</span>
+                                <span class="result-value" id="baseCost">₹0</span>
+                            </div>
+
+                            <!-- DETAILS -->
+                            <div class="result-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Area (sq ft)</span>
+                                    <span class="detail-value" id="detailArea">0</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Rate per sq ft</span>
+                                    <span class="detail-value" id="detailRate">₹0</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Location Adjustment</span>
+                                    <span class="detail-value" id="detailLocation">+0%</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Additional Features</span>
+                                    <span class="detail-value" id="detailAddons">₹0</span>
+                                </div>
+                            </div>
+
+                            <!-- BREAKDOWN TABLE -->
+                            <div class="breakdown-section">
+                                <h3>Detailed Breakdown</h3>
+                                <div class="breakdown-table">
+                                    <div class="breakdown-row">
+                                        <span class="breakdown-label">Structure & Foundation</span>
+                                        <span class="breakdown-percentage">30%</span>
+                                    </div>
+                                    <div class="breakdown-row">
+                                        <span class="breakdown-label">Flooring & Finishing</span>
+                                        <span class="breakdown-percentage">25%</span>
+                                    </div>
+                                    <div class="breakdown-row">
+                                        <span class="breakdown-label">Electrical & Plumbing</span>
+                                        <span class="breakdown-percentage">20%</span>
+                                    </div>
+                                    <div class="breakdown-row">
+                                        <span class="breakdown-label">Painting & Interior</span>
+                                        <span class="breakdown-percentage">15%</span>
+                                    </div>
+                                    <div class="breakdown-row">
+                                        <span class="breakdown-label">Miscellaneous</span>
+                                        <span class="breakdown-percentage">10%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TOTAL -->
+                            <div class="result-total">
+                                <span>Estimated Total Cost</span>
+                                <span class="total-amount" id="totalCost">₹0</span>
+                            </div>
+
+                            <!-- CTA -->
+                            <div class="results-cta">
+                                <p>Ready to discuss your project?</p>
+                                <a href="/contact.html" class="btn btn-primary btn-block">
+                                    Contact Our Team
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- INITIAL MESSAGE -->
+                        <div class="results-placeholder" id="placeholder">
+                            <div class="placeholder-icon">📐</div>
+                            <h3>Get Your Estimate</h3>
+                            <p>
+                                Fill in the project details on the left and click "Calculate Cost" to get an instant estimate 
+                                of your construction project cost.
+                            </p>
+                            <p>
+                                Our estimates are based on current market rates and include all major construction elements.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFO SECTION -->
+        <section class="info-section">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: var(--spacing-2xl);">How Our Calculator Works</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-number">1</div>
+                        <h3>Enter Your Details</h3>
+                        <p>
+                            Provide your project specifications including built-up area, construction type, and location.
+                        </p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-number">2</div>
+                        <h3>Select Options</h3>
+                        <p>
+                            Choose your preferred construction quality and any additional features like parking or security systems.
+                        </p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-number">3</div>
+                        <h3>Get Estimate</h3>
+                        <p>
+                            Receive an instant cost breakdown and detailed estimate tailored to your project requirements.
+                        </p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-number">4</div>
+                        <h3>Schedule Consultation</h3>
+                        <p>
+                            Contact our team to discuss your project in detail and get a formal quote with timeline.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Need Help Understanding the Estimate?</h2>
+                    <p>
+                        Our construction experts are ready to answer your questions and provide detailed guidance.
+                        <br>
+                        Schedule a free consultation today.
+                    </p>
+                    <a href="/contact.html" class="btn btn-primary btn-lg">Schedule Free Consultation</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Shiwari Builders</h3>
+                    <p>Building Dreams Into Reality since 2021</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about.html">About</a></li>
+                        <li><a href="/services.html">Services</a></li>
+                        <li><a href="/projects.html">Projects</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="/services.html">Home Construction</a></li>
+                        <li><a href="/services.html">Renovation</a></li>
+                        <li><a href="/services.html">NRI Services</a></li>
+                        <li><a href="/services.html">Commercial</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p class="contact-info">
+                        <strong>Phone:</strong> +91 9999 999999
+                        <br>
+                        <strong>Email:</strong> info@shiwaribuilders.com
+                        <br>
+                        <strong>Address:</strong> Faridabad & Gurgaon, Haryana
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Shiwari Builders. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* PAGE HEADER */
+        .page-header {
+            background: linear-gradient(135deg, rgba(217, 125, 83, 0.1) 0%, rgba(160, 86, 46, 0.05) 100%);
+            padding: 60px var(--spacing-sm);
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .page-header h1 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* CALCULATOR SECTION */
+        .calculator-section {
+            padding: var(--spacing-2xl) var(--spacing-sm);
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+        }
+
+        /* FORM STYLES */
+        .calculator-form {
+            background-color: var(--bg-lighter);
+            padding: var(--spacing-2xl);
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+        }
+
+        .calculator-form h2 {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .form-group label strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text-primary);
+            background-color: var(--primary-light);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(217, 125, 83, 0.1);
+        }
+
+        .form-group small {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* CHECKBOX GROUP */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .checkbox-label:hover {
+            background-color: var(--primary-light);
+            border-color: var(--accent-orange);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent-orange);
+        }
+
+        .checkbox-label span {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .checkbox-label span:first-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .checkbox-cost {
+            font-size: 12px;
+            color: var(--accent-orange);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* FORM ACTIONS */
+        .form-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        /* RESULTS SECTION */
+        .calculator-results {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .results-card {
+            background-color: var(--primary-light);
+            padding: var(--spacing-2xl);
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .results-card.hidden {
+            display: none;
+        }
+
+        .results-card h2 {
+            margin-bottom: var(--spacing-lg);
+            font-size: 24px;
+        }
+
+        /* RESULT ITEMS */
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-md);
+            background-color: var(--bg-lighter);
+        }
+
+        .result-item.highlight {
+            background: linear-gradient(135deg, rgba(217, 125, 83, 0.1) 0%, rgba(160, 86, 46, 0.05) 100%);
+            border: 1px solid rgba(217, 125, 83, 0.2);
+            font-weight: 600;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .result-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-orange);
+        }
+
+        /* RESULT DETAILS */
+        .result-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* BREAKDOWN SECTION */
+        .breakdown-section {
+            margin: var(--spacing-lg) 0;
+            padding: var(--spacing-lg) 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .breakdown-section h3 {
+            font-size: 16px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .breakdown-table {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm);
+            background-color: var(--bg-lighter);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .breakdown-label {
+            color: var(--text-secondary);
+        }
+
+        .breakdown-percentage {
+            background-color: var(--primary-light);
+            color: var(--accent-orange);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* TOTAL */
+        .result-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-lg);
+            background: linear-gradient(135deg, rgba(217, 125, 83, 0.15) 0%, rgba(160, 86, 46, 0.1) 100%);
+            border-radius: 8px;
+            border: 2px solid rgba(217, 125, 83, 0.3);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .result-total span:first-child {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .total-amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-orange);
+        }
+
+        /* RESULTS CTA */
+        .results-cta {
+            text-align: center;
+            padding-top: var(--spacing-lg);
+        }
+
+        .results-cta p {
+            font-size: 14px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .btn-block {
+            width: 100%;
+            padding: 14px;
+        }
+
+        /* PLACEHOLDER */
+        .results-placeholder {
+            background-color: var(--bg-lighter);
+            padding: var(--spacing-2xl);
+            border-radius: 12px;
+            border: 2px dashed var(--border-light);
+            text-align: center;
+            width: 100%;
+        }
+
+        .placeholder-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .results-placeholder h3 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .results-placeholder p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .results-placeholder p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* INFO SECTION */
+        .info-section {
+            padding: var(--spacing-2xl) var(--spacing-sm);
+            background-color: var(--bg-lighter);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .info-card {
+            background-color: var(--primary-light);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background-color: rgba(217, 125, 83, 0.15);
+            color: var(--accent-orange);
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .info-card h3 {
+            margin-bottom: var(--spacing-md);
+            font-size: 18px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .calculator-form {
+                padding: var(--spacing-lg);
+            }
+
+            .results-card {
+                padding: var(--spacing-lg);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .result-total {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                text-align: center;
+            }
+        }
+    </style>
+
+    <script>
+        const priceRates = {
+            basic: 1500,
+            standard: 2000,
+            premium: 2500,
+            luxury: 3500
+        };
+
+        const locationMultiplier = {
+            faridabad: 1.0,
+            gurgaon: 1.1,
+            delhi: 1.15
+        };
+
+        function calculateCost() {
+            const builtUpArea = parseFloat(document.getElementById('builtUpArea').value);
+            const constructionType = document.getElementById('constructionType').value;
+            const projectType = document.getElementById('projectType').value;
+            const location = document.getElementById('location').value;
+
+            if (!builtUpArea || !constructionType || !projectType || !location) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const ratePerSqFt = priceRates[constructionType];
+            const multiplier = locationMultiplier[location];
+            const baseRate = ratePerSqFt * multiplier;
+            const baseCost = baseRate * builtUpArea;
+
+            // Calculate additional features
+            let addonsCost = 0;
+            if (document.getElementById('parking').checked) {
+                addonsCost += parseInt(document.getElementById('parking').value);
+            }
+            if (document.getElementById('garden').checked) {
+                addonsCost += parseInt(document.getElementById('garden').value);
+            }
+            if (document.getElementById('security').checked) {
+                addonsCost += parseInt(document.getElementById('security').value);
+            }
+            if (document.getElementById('pool').checked) {
+                addonsCost += parseInt(document.getElementById('pool').value);
+            }
+
+            const totalCost = baseCost + addonsCost;
+
+            // Update results
+            document.getElementById('resultsCard').classList.remove('hidden');
+            document.getElementById('placeholder').style.display = 'none';
+
+            document.getElementById('baseCost').textContent = '₹' + baseCost.toLocaleString();
+            document.getElementById('detailArea').textContent = builtUpArea.toLocaleString();
+            document.getElementById('detailRate').textContent = '₹' + baseRate.toLocaleString();
+            document.getElementById('detailLocation').textContent = ((multiplier - 1) * 100).toFixed(0) + '%';
+            document.getElementById('detailAddons').textContent = '₹' + addonsCost.toLocaleString();
+            document.getElementById('totalCost').textContent = '₹' + totalCost.toLocaleString();
+        }
+
+        function resetForm() {
+            document.getElementById('builtUpArea').value = '2000';
+            document.getElementById('constructionType').value = '';
+            document.getElementById('projectType').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('parking').checked = false;
+            document.getElementById('garden').checked = false;
+            document.getElementById('security').checked = false;
+            document.getElementById('pool').checked = false;
+
+            document.getElementById('resultsCard').classList.add('hidden');
+            document.getElementById('placeholder').style.display = 'block';
+        }
+
+        // Allow Enter key to calculate
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateCost();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="concreteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#b0b0b0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#808080;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="concretePattern" width="50" height="50" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="3" fill="#666" opacity="0.5"/>
+      <circle cx="35" cy="25" r="2" fill="#555" opacity="0.4"/>
+      <circle cx="45" cy="40" r="3" fill="#777" opacity="0.5"/>
+      <circle cx="10" cy="45" r="2" fill="#666" opacity="0.4"/>
+    </pattern>
+  </defs>
+  
+  <!-- Concrete background -->
+  <rect width="800" height="600" fill="url(#concreteGrad)"/>
+  <rect width="800" height="600" fill="url(#concretePattern)"/>
+  
+  <!-- Concrete blocks/curing -->
+  <g id="concrete-blocks" opacity="0.6">
+    <rect x="50" y="50" width="200" height="150" fill="#999" stroke="#666" stroke-width="2"/>
+    <rect x="100" y="120" width="150" height="200" fill="#aaa" stroke="#666" stroke-width="2"/>
+    <rect x="300" y="80" width="180" height="180" fill="#888" stroke="#666" stroke-width="2"/>
+    <rect x="520" y="150" width="200" height="200" fill="#999" stroke="#666" stroke-width="2"/>
+  </g>
+  
+  <!-- Water/wet marks -->
+  <ellipse cx="250" cy="400" rx="80" ry="40" fill="#606060" opacity="0.3"/>
+  <ellipse cx="600" cy="480" rx="100" ry="50" fill="#707070" opacity="0.3"/>
+  
+  <!-- Dust/texture overlay -->
+  <rect width="800" height="600" fill="#000" opacity="0.05"/>
+  
+  <!-- Text overlay -->
+  <text x="400" y="550" font-size="24" text-anchor="middle" fill="#fff" opacity="0.5" font-family="Arial">RCC Concrete Work & Curing</text>
+</svg>

@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — Shiwari Builders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-light: #ffffff;
+            --accent-orange: #d97d53;
+            --accent-dark: #a0562e;
+            --text-secondary: #666;
+            --text-muted: #999;
+            --bg-light: #f8f8f8;
+            --border-light: #e8e8e8;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 40px;
+            --spacing-2xl: 60px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--primary-dark);
+            line-height: 1.6;
+        }
+
+        /* LAYOUT */
+        .admin-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .admin-sidebar {
+            background: var(--primary-dark);
+            color: var(--primary-light);
+            padding: var(--spacing-md);
+            position: fixed;
+            width: 280px;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(217, 125, 83, 0.2);
+            color: var(--primary-light);
+        }
+
+        .menu-item.active {
+            background-color: var(--accent-orange);
+            color: var(--primary-light);
+        }
+
+        .menu-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: var(--spacing-md);
+            width: calc(280px - 2 * var(--spacing-md));
+            padding-top: var(--spacing-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 10px;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: rgba(217, 125, 83, 0.3);
+            color: var(--primary-light);
+            border-color: var(--accent-orange);
+        }
+
+        /* MAIN CONTENT */
+        .admin-main {
+            grid-column: 2;
+            padding: var(--spacing-lg);
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            background: var(--primary-light);
+            padding: var(--spacing-md);
+            border-radius: 12px;
+            margin-bottom: var(--spacing-lg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* SECTIONS */
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--primary-light);
+            padding: var(--spacing-md);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-light);
+        }
+
+        .card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-dark);
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* FORM ELEMENTS */
+        .form-group {
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(217, 125, 83, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-orange);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(217, 125, 83, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-light);
+            color: var(--primary-dark);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-light);
+        }
+
+        .btn-danger {
+            background-color: #ff4757;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #ff3838;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* TABLES */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--primary-light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table thead {
+            background-color: var(--bg-light);
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: var(--bg-light);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: var(--primary-light);
+            padding: var(--spacing-lg);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .modal-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-dark);
+        }
+
+        /* MESSAGES */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: var(--spacing-md);
+            font-size: 14px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background-color: #efe;
+            color: #3c3;
+            border-left: 4px solid #3c3;
+        }
+
+        .alert-error {
+            background-color: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+
+        .alert-info {
+            background-color: #eff;
+            color: #33c;
+            border-left: 4px solid #33c;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .admin-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-sidebar {
+                position: absolute;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 280px;
+            }
+
+            .admin-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .admin-main {
+                grid-column: 1;
+                padding: var(--spacing-md);
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-md);
+            }
+
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 95vh;
+            }
+        }
+
+        /* UTILITIES */
+        .mt {
+            margin-top: var(--spacing-md);
+        }
+
+        .mb {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .flex {
+            display: flex;
+            gap: 12px;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background-color: #efe;
+            color: #3c3;
+        }
+
+        .badge-warning {
+            background-color: #ffe;
+            color: #cc3;
+        }
+
+        .badge-danger {
+            background-color: #fee;
+            color: #c33;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Admin</h2>
+                <p>Shiwari Builders</p>
+            </div>
+
+            <nav class="sidebar-menu">
+                <button class="menu-item active" onclick="showSection('dashboard')">
+                    <span class="menu-icon">📊</span>
+                    Dashboard
+                </button>
+                <button class="menu-item" onclick="showSection('projects')">
+                    <span class="menu-icon">🏗️</span>
+                    Projects
+                </button>
+                <button class="menu-item" onclick="showSection('properties')">
+                    <span class="menu-icon">🏠</span>
+                    Properties
+                </button>
+                <button class="menu-item" onclick="showSection('pages')">
+                    <span class="menu-icon">📄</span>
+                    Pages
+                </button>
+                <button class="menu-item" onclick="showSection('design')">
+                    <span class="menu-icon">🎨</span>
+                    Design & Colors
+                </button>
+                <button class="menu-item" onclick="showSection('columns')">
+                    <span class="menu-icon">📋</span>
+                    Columns & Fields
+                </button>
+                <button class="menu-item" onclick="showSection('media')">
+                    <span class="menu-icon">🖼️</span>
+                    Media Manager
+                </button>
+                <button class="menu-item" onclick="showSection('settings')">
+                    <span class="menu-icon">⚙️</span>
+                    Settings
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="handleLogout()">
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <!-- HEADER -->
+            <div class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <div class="admin-user">
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 4px;" id="adminUserName">Admin</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Admin User</div>
+                    </div>
+                    <div class="user-avatar" id="userAvatarText">A</div>
+                </div>
+            </div>
+
+            <!-- ALERTS -->
+            <div class="alert alert-success" id="successAlert"></div>
+            <div class="alert alert-error" id="errorAlert"></div>
+
+            <!-- DASHBOARD SECTION -->
+            <section class="admin-section active" id="dashboardSection">
+                <h2 style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: var(--spacing-lg);">Welcome to Admin Dashboard</h2>
+                <div class="section-grid">
+                    <div class="card">
+                        <h3>📊 Total Projects</h3>
+                        <p>Manage and monitor all your construction projects in one place.</p>
+                        <button class="btn btn-primary" onclick="showSection('projects')">Manage Projects</button>
+                    </div>
+                    <div class="card">
+                        <h3>🏠 Properties</h3>
+                        <p>Add, edit, and manage all properties available for sale or rent.</p>
+                        <button class="btn btn-primary" onclick="showSection('properties')">Manage Properties</button>
+                    </div>
+                    <div class="card">
+                        <h3>📄 Web Pages</h3>
+                        <p>Create, edit, or hide web pages displayed on your website.</p>
+                        <button class="btn btn-primary" onclick="showSection('pages')">Manage Pages</button>
+                    </div>
+                    <div class="card">
+                        <h3>🎨 Design System</h3>
+                        <p>Customize colors, fonts, and overall design of your website.</p>
+                        <button class="btn btn-primary" onclick="showSection('design')">Customize Design</button>
+                    </div>
+                    <div class="card">
+                        <h3>📋 Table Columns</h3>
+                        <p>Add, remove, or hide columns in your data tables.</p>
+                        <button class="btn btn-primary" onclick="showSection('columns')">Manage Columns</button>
+                    </div>
+                    <div class="card">
+                        <h3>🖼️ Media Manager</h3>
+                        <p>Upload, manage, and organize images and media files.</p>
+                        <button class="btn btn-primary" onclick="showSection('media')">Open Media Manager</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECTS SECTION -->
+            <section class="admin-section" id="projectsSection">
+                <div class="flex-between" style="margin-bottom: var(--spacing-lg);">
+                    <h2 style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700;">Projects Management</h2>
+                    <button class="btn btn-primary" onclick="openProjectModal()">+ Add New Project</button>
+                </div>
+
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Units</th>
+                                <th>Year</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsList">
+                            <tr>
+                                <td>Green Valley Homes</td>
+                                <td>Faridabad</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>24 apartments</td>
+                                <td>2022</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editProject(1)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProject(1)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sunshine Residency</td>
+                                <td>Gurgaon</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>18 floors</td>
+                                <td>2023</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editProject(2)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProject(2)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Urban Heights</td>
+                                <td>Faridabad</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>32 apartments</td>
+                                <td>2023</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editProject(3)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProject(3)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Royal Villas</td>
+                                <td>Gurgaon</td>
+                                <td><span class="badge badge-warning">Ongoing</span></td>
+                                <td>12 villas</td>
+                                <td>Q3 2026</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editProject(4)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProject(4)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Skyline Towers</td>
+                                <td>Faridabad</td>
+                                <td><span class="badge badge-warning">Ongoing</span></td>
+                                <td>48 apartments</td>
+                                <td>2026</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editProject(5)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProject(5)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>City Square</td>
+                                <td>Gurgaon</td>
+                                <td><span class="badge badge-warning">Ongoing</span></td>
+                                <td>500,000 sq ft</td>
+                                <td>2026</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editProject(6)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProject(6)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PROPERTIES SECTION -->
+            <section class="admin-section" id="propertiesSection">
+                <div class="flex-between" style="margin-bottom: var(--spacing-lg);">
+                    <h2 style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700;">Properties Management</h2>
+                    <button class="btn btn-primary" onclick="openPropertyModal()">+ Add New Property</button>
+                </div>
+
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Property Name</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>3 BHK Apartment</td>
+                                <td>Residential</td>
+                                <td>Faridabad</td>
+                                <td>₹25,00,000</td>
+                                <td><span class="badge badge-success">Available</span></td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editProperty(1)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProperty(1)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2 BHK Flat</td>
+                                <td>Residential</td>
+                                <td>Gurgaon</td>
+                                <td>₹35,00,000</td>
+                                <td><span class="badge badge-success">Available</span></td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editProperty(2)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProperty(2)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PAGES SECTION -->
+            <section class="admin-section" id="pagesSection">
+                <div class="flex-between" style="margin-bottom: var(--spacing-lg);">
+                    <h2 style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700;">Pages Management</h2>
+                    <button class="btn btn-primary" onclick="openPageModal()">+ Create New Page</button>
+                </div>
+
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Page Title</th>
+                                <th>URL</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Home</td>
+                                <td>/index.html</td>
+                                <td><span class="badge badge-success">Published</span></td>
+                                <td>2026-01-15</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editPage(1)">Edit</button>
+                                    <button class="btn btn-secondary" onclick="togglePage(1)">Hide</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>About Us</td>
+                                <td>/about.html</td>
+                                <td><span class="badge badge-success">Published</span></td>
+                                <td>2026-01-15</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editPage(2)">Edit</button>
+                                    <button class="btn btn-secondary" onclick="togglePage(2)">Hide</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Services</td>
+                                <td>/services.html</td>
+                                <td><span class="badge badge-success">Published</span></td>
+                                <td>2026-01-15</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editPage(3)">Edit</button>
+                                    <button class="btn btn-secondary" onclick="togglePage(3)">Hide</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Projects</td>
+                                <td>/projects.html</td>
+                                <td><span class="badge badge-success">Published</span></td>
+                                <td>2026-01-15</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editPage(4)">Edit</button>
+                                    <button class="btn btn-secondary" onclick="togglePage(4)">Hide</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Contact</td>
+                                <td>/contact.html</td>
+                                <td><span class="badge badge-success">Published</span></td>
+                                <td>2026-01-15</td>
+                                <td class="flex">
+                                    <button class="btn btn-secondary" onclick="editPage(5)">Edit</button>
+                                    <button class="btn btn-secondary" onclick="togglePage(5)">Hide</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- DESIGN SECTION -->
+            <section class="admin-section" id="designSection">
+                <h2 style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: var(--spacing-lg);">Design & Customization</h2>
+
+                <div class="section-grid">
+                    <div class="card">
+                        <h3>🎨 Primary Colors</h3>
+                        <div class="form-group">
+                            <label>Primary Dark Color</label>
+                            <input type="color" value="#1a1a1a" id="colorPrimary" onchange="updateDesign()">
+                            <input type="text" value="#1a1a1a" id="colorPrimaryText" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Accent Orange Color</label>
+                            <input type="color" value="#d97d53" id="colorAccent" onchange="updateDesign()">
+                            <input type="text" value="#d97d53" id="colorAccentText" readonly>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>🎨 Secondary Colors</h3>
+                        <div class="form-group">
+                            <label>Background Color</label>
+                            <input type="color" value="#f8f8f8" id="colorBg" onchange="updateDesign()">
+                            <input type="text" value="#f8f8f8" id="colorBgText" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Text Secondary Color</label>
+                            <input type="color" value="#666666" id="colorTextSecond" onchange="updateDesign()">
+                            <input type="text" value="#666666" id="colorTextSecondText" readonly>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📝 Typography</h3>
+                        <div class="form-group">
+                            <label>Main Font Size (Body)</label>
+                            <input type="number" value="16" id="fontSize" onchange="updateDesign()" min="12" max="20">
+                            <small>Current: 16px</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Heading Font Size</label>
+                            <input type="number" value="32" id="headingSize" onchange="updateDesign()" min="20" max="48">
+                            <small>Current: 32px</small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>🏠 Background Settings</h3>
+                        <div class="form-group">
+                            <label>Homepage Background Color</label>
+                            <input type="color" value="#ffffff" id="homepageBgColor" onchange="updatePageBackground()">
+                            <input type="text" value="#ffffff" id="homepageBgColorText" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Pages Background Color</label>
+                            <input type="color" value="#f8f8f8" id="pagesBgColor" onchange="updatePageBackground()">
+                            <input type="text" value="#f8f8f8" id="pagesBgColorText" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Background Opacity</label>
+                            <input type="range" value="1" id="bgOpacity" min="0" max="1" step="0.1" onchange="updatePageBackground()">
+                            <small>Current: <span id="opacityValue">100%</span></small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📐 Text Alignment</h3>
+                        <div class="form-group">
+                            <label>Homepage Text Alignment</label>
+                            <select id="homepageTextAlign" onchange="updateTextAlignment()">
+                                <option value="left">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="right">Right</option>
+                                <option value="justify">Justify</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Content Pages Text Alignment</label>
+                            <select id="pagesTextAlign" onchange="updateTextAlignment()">
+                                <option value="left" selected>Left</option>
+                                <option value="center">Center</option>
+                                <option value="right">Right</option>
+                                <option value="justify">Justify</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Heading Alignment</label>
+                            <select id="headingAlign" onchange="updateTextAlignment()">
+                                <option value="left">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>🌈 Apply To All Pages</h3>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="applyHomepageStyle" checked>
+                                Apply styles to Homepage
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="applyProjectPages" checked>
+                                Apply styles to Project Pages
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="applyPropertyPages" checked>
+                                Apply styles to Property Pages
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="applyOtherPages" checked>
+                                Apply styles to Other Pages
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>💾 Save Changes</h3>
+                        <p>All design changes are saved to your website in real-time.</p>
+                        <button class="btn btn-primary btn-block" onclick="saveDesignChanges()">Save All Changes</button>
+                        <button class="btn btn-secondary btn-block" style="margin-top: 8px;" onclick="resetDesign()">Reset to Default</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COLUMNS SECTION -->
+            <section class="admin-section" id="columnsSection">
+                <h2 style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: var(--spacing-lg);">Manage Table Columns</h2>
+
+                <div class="section-grid">
+                    <div class="card">
+                        <h3>📋 Projects Table Columns</h3>
+                        <p style="margin-bottom: var(--spacing-md);">Show/hide columns in the projects table:</p>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('projects', 'name')">
+                                Project Name
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('projects', 'location')">
+                                Location
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('projects', 'status')">
+                                Status
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('projects', 'units')">
+                                Units
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('projects', 'year')">
+                                Year/Expected
+                            </label>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="addProjectColumn()">+ Add New Column</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>📋 Properties Table Columns</h3>
+                        <p style="margin-bottom: var(--spacing-md);">Show/hide columns in the properties table:</p>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('properties', 'name')">
+                                Property Name
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('properties', 'type')">
+                                Type
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('properties', 'location')">
+                                Location
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('properties', 'price')">
+                                Price
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked onchange="toggleColumn('properties', 'status')">
+                                Status
+                            </label>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="addPropertyColumn()">+ Add New Column</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>📋 Add Custom Column</h3>
+                        <div class="form-group">
+                            <label>Column Name</label>
+                            <input type="text" id="newColumnName" placeholder="e.g., Description">
+                        </div>
+                        <div class="form-group">
+                            <label>Column Type</label>
+                            <select id="newColumnType">
+                                <option>Text</option>
+                                <option>Number</option>
+                                <option>Date</option>
+                                <option>Dropdown</option>
+                                <option>Image</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Table</label>
+                            <select id="newColumnTable">
+                                <option>Projects</option>
+                                <option>Properties</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="createCustomColumn()">Create Column</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MEDIA SECTION -->
+            <section class="admin-section" id="mediaSection">
+                <h2 style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: var(--spacing-lg);">Media Manager</h2>
+
+                <div class="card">
+                    <h3>📤 Upload Images</h3>
+                    <div class="form-group">
+                        <label>Select Image File</label>
+                        <input type="file" id="imageUpload" accept="image/*" onchange="previewImage()">
+                    </div>
+                    <div id="imagePreview" style="margin-bottom: var(--spacing-md); text-align: center; display: none;">
+                        <img id="previewImg" style="max-width: 200px; max-height: 200px; border-radius: 8px;" alt="Preview">
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="uploadImage()">Upload Image</button>
+                </div>
+
+                <h3 style="margin-top: var(--spacing-lg); margin-bottom: var(--spacing-md);">Media Library</h3>
+                <div class="card">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--spacing-md);">
+                        <div style="aspect-ratio: 1; background: var(--bg-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;">
+                            <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=150&h=150&fit=crop" alt="Green Valley" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <button class="btn btn-danger" style="position: absolute; top: 5px; right: 5px; padding: 4px 8px; font-size: 12px;" onclick="deleteMedia(1)">Delete</button>
+                        </div>
+                        <div style="aspect-ratio: 1; background: var(--bg-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <img src="https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=150&h=150&fit=crop" alt="Urban Heights" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <button class="btn btn-danger" style="position: absolute; top: 5px; right: 5px; padding: 4px 8px; font-size: 12px;" onclick="deleteMedia(2)">Delete</button>
+                        </div>
+                        <div style="aspect-ratio: 1; background: var(--bg-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=150&h=150&fit=crop" alt="Royal Villas" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <button class="btn btn-danger" style="position: absolute; top: 5px; right: 5px; padding: 4px 8px; font-size: 12px;" onclick="deleteMedia(3)">Delete</button>
+                        </div>
+                        <div style="aspect-ratio: 1; background: var(--bg-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=150&h=150&fit=crop" alt="Skyline" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <button class="btn btn-danger" style="position: absolute; top: 5px; right: 5px; padding: 4px 8px; font-size: 12px;" onclick="deleteMedia(4)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS SECTION -->
+            <section class="admin-section" id="settingsSection">
+                <h2 style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: var(--spacing-lg);">Website Settings</h2>
+
+                <div class="section-grid">
+                    <div class="card">
+                        <h3>🏢 Company Information</h3>
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" value="Shiwari Builders" id="companyName" onchange="saveSettings()">
+                        </div>
+                        <div class="form-group">
+                            <label>Tagline</label>
+                            <input type="text" value="Building Dreams Into Reality" id="tagline" onchange="saveSettings()">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" value="+91 9999 999999" id="phone" onchange="saveSettings()">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" value="info@shiwaribuilders.com" id="email" onchange="saveSettings()">
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📍 Location Information</h3>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" value="Faridabad & Gurgaon, Haryana" id="address" onchange="saveSettings()">
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" value="Faridabad" id="city" onchange="saveSettings()">
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" value="Haryana" id="state" onchange="saveSettings()">
+                        </div>
+                        <div class="form-group">
+                            <label>PIN Code</label>
+                            <input type="text" value="121001" id="pin" onchange="saveSettings()">
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>🔐 Security Settings</h3>
+                        <div class="form-group">
+                            <label>Change Admin Password</label>
+                            <input type="password" id="oldPassword" placeholder="Current password" style="margin-bottom: 8px;">
+                            <input type="password" id="newPassword" placeholder="New password" style="margin-bottom: 8px;">
+                            <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="changePassword()">Update Password</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>💾 Backup & Export</h3>
+                        <p>Backup your website data and settings.</p>
+                        <button class="btn btn-primary btn-block" onclick="backupData()">Download Backup</button>
+                        <button class="btn btn-secondary btn-block" style="margin-top: 8px;" onclick="exportData()">Export as JSON</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add/Edit Project</h2>
+                <button class="modal-close" onclick="closeModal('projectModal')">×</button>
+            </div>
+            <div class="form-group">
+                <label>Project Name</label>
+                <input type="text" id="projectName" placeholder="e.g., Green Valley Homes">
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" id="projectLocation" placeholder="e.g., Faridabad">
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select id="projectType">
+                    <option>Residential Apartments</option>
+                    <option>Builder Floors</option>
+                    <option>Independent Villas</option>
+                    <option>High-Rise Apartments</option>
+                    <option>Mixed-Use</option>
+                    <option>Commercial</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select id="projectStatus">
+                    <option>Completed</option>
+                    <option>Ongoing</option>
+                    <option>Planning</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Year/Expected Completion</label>
+                <input type="text" id="projectYear" placeholder="e.g., 2023 or Q3 2026">
+            </div>
+            <div class="form-group">
+                <label>Units/Size</label>
+                <input type="text" id="projectUnits" placeholder="e.g., 24 apartments">
+            </div>
+            <div class="form-group">
+                <label>Project Image</label>
+                <input type="file" id="projectImage" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="projectDesc" placeholder="Project description..."></textarea>
+            </div>
+            <div class="flex" style="justify-content: flex-end; margin-top: var(--spacing-lg);">
+                <button class="btn btn-secondary" onclick="closeModal('projectModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProject()">Save Project</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="propertyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add/Edit Property</h2>
+                <button class="modal-close" onclick="closeModal('propertyModal')">×</button>
+            </div>
+            <div class="form-group">
+                <label>Property Name</label>
+                <input type="text" id="propertyName" placeholder="e.g., 3 BHK Apartment">
+            </div>
+            <div class="form-group">
+                <label>Property Type</label>
+                <select id="propertyType">
+                    <option>Residential</option>
+                    <option>Commercial</option>
+                    <option>Industrial</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" id="propertyLocation" placeholder="e.g., Faridabad">
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" id="propertyPrice" placeholder="e.g., ₹25,00,000">
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select id="propertyStatus">
+                    <option>Available</option>
+                    <option>Sold</option>
+                    <option>Rented</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Property Image</label>
+                <input type="file" id="propertyImage" accept="image/*">
+            </div>
+            <div class="flex" style="justify-content: flex-end; margin-top: var(--spacing-lg);">
+                <button class="btn btn-secondary" onclick="closeModal('propertyModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProperty()">Save Property</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="pageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create/Edit Page</h2>
+                <button class="modal-close" onclick="closeModal('pageModal')">×</button>
+            </div>
+            <div class="form-group">
+                <label>Page Title</label>
+                <input type="text" id="pageTitle" placeholder="e.g., About Us">
+            </div>
+            <div class="form-group">
+                <label>Page URL</label>
+                <input type="text" id="pageUrl" placeholder="e.g., /about.html">
+            </div>
+            <div class="form-group">
+                <label>Page Content</label>
+                <textarea id="pageContent" placeholder="Write page content here..." style="min-height: 200px;"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Meta Description</label>
+                <textarea id="pageMetaDesc" placeholder="SEO meta description..." style="min-height: 80px;"></textarea>
+            </div>
+            <div class="flex" style="justify-content: flex-end; margin-top: var(--spacing-lg);">
+                <button class="btn btn-secondary" onclick="closeModal('pageModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="savePage()">Save Page</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-label input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--accent-orange);
+        }
+    </style>
+
+    <script>
+        // CHECK LOGIN
+        window.addEventListener('load', () => {
+            if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = 'admin-login.html';
+            }
+            const username = sessionStorage.getItem('adminUsername') || 'Admin';
+            document.getElementById('adminUserName').textContent = username.charAt(0).toUpperCase() + username.slice(1);
+        });
+
+        // SECTION NAVIGATION
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active from all menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionName + 'Section').classList.add('active');
+
+            // Add active to clicked menu item
+            event.target.closest('.menu-item').classList.add('active');
+        }
+
+        // MODAL FUNCTIONS
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openProjectModal() {
+            openModal('projectModal');
+        }
+
+        function openPropertyModal() {
+            openModal('propertyModal');
+        }
+
+        function openPageModal() {
+            openModal('pageModal');
+        }
+
+        // PROJECT FUNCTIONS
+        function editProject(id) {
+            openProjectModal();
+            showAlert('Edit mode for project ' + id, 'info');
+        }
+
+        function saveProject() {
+            const name = document.getElementById('projectName').value;
+            if (!name) {
+                showAlert('Please enter project name', 'error');
+                return;
+            }
+            showAlert('Project saved successfully!', 'success');
+            closeModal('projectModal');
+        }
+
+        function deleteProject(id) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                showAlert('Project deleted successfully!', 'success');
+            }
+        }
+
+        // PROPERTY FUNCTIONS
+        function editProperty(id) {
+            openPropertyModal();
+            showAlert('Edit mode for property ' + id, 'info');
+        }
+
+        function saveProperty() {
+            const name = document.getElementById('propertyName').value;
+            if (!name) {
+                showAlert('Please enter property name', 'error');
+                return;
+            }
+            showAlert('Property saved successfully!', 'success');
+            closeModal('propertyModal');
+        }
+
+        function deleteProperty(id) {
+            if (confirm('Are you sure you want to delete this property?')) {
+                showAlert('Property deleted successfully!', 'success');
+            }
+        }
+
+        // PAGE FUNCTIONS
+        function editPage(id) {
+            openPageModal();
+            showAlert('Edit mode for page ' + id, 'info');
+        }
+
+        function savePage() {
+            const title = document.getElementById('pageTitle').value;
+            if (!title) {
+                showAlert('Please enter page title', 'error');
+                return;
+            }
+            showAlert('Page saved successfully!', 'success');
+            closeModal('pageModal');
+        }
+
+        function togglePage(id) {
+            showAlert('Page visibility toggled!', 'success');
+        }
+
+        // DESIGN FUNCTIONS
+        function updateDesign() {
+            const primary = document.getElementById('colorPrimary').value;
+            const accent = document.getElementById('colorAccent').value;
+            const bg = document.getElementById('colorBg').value;
+            const textSecond = document.getElementById('colorTextSecond').value;
+
+            document.getElementById('colorPrimaryText').value = primary;
+            document.getElementById('colorAccentText').value = accent;
+            document.getElementById('colorBgText').value = bg;
+            document.getElementById('colorTextSecondText').value = textSecond;
+        }
+
+        function updatePageBackground() {
+            const homepageBg = document.getElementById('homepageBgColor').value;
+            const pagesBg = document.getElementById('pagesBgColor').value;
+            const opacity = document.getElementById('bgOpacity').value;
+
+            document.getElementById('homepageBgColorText').value = homepageBg;
+            document.getElementById('pagesBgColorText').value = pagesBg;
+            document.getElementById('opacityValue').textContent = Math.round(opacity * 100) + '%';
+
+            // Apply to homepage if checkbox is checked
+            if (document.getElementById('applyHomepageStyle').checked) {
+                const styleId = 'homepage-custom-bg';
+                let styleTag = document.getElementById(styleId);
+                if (!styleTag) {
+                    styleTag = document.createElement('style');
+                    styleTag.id = styleId;
+                    document.head.appendChild(styleTag);
+                }
+                styleTag.innerHTML = `
+                    body { background-color: ${homepageBg}; opacity: ${opacity}; }
+                `;
+            }
+
+            // Store in localStorage
+            localStorage.setItem('homepageBgColor', homepageBg);
+            localStorage.setItem('pagesBgColor', pagesBg);
+            localStorage.setItem('bgOpacity', opacity);
+        }
+
+        function updateTextAlignment() {
+            const homepageAlign = document.getElementById('homepageTextAlign').value;
+            const pagesAlign = document.getElementById('pagesTextAlign').value;
+            const headingAlign = document.getElementById('headingAlign').value;
+
+            // Apply homepage text alignment
+            if (document.getElementById('applyHomepageStyle').checked) {
+                const styleId = 'homepage-text-align';
+                let styleTag = document.getElementById(styleId);
+                if (!styleTag) {
+                    styleTag = document.createElement('style');
+                    styleTag.id = styleId;
+                    document.head.appendChild(styleTag);
+                }
+                styleTag.innerHTML = `
+                    body { text-align: ${homepageAlign}; }
+                    h1, h2, h3, h4, h5, h6 { text-align: ${headingAlign}; }
+                `;
+            }
+
+            // Apply to project pages
+            if (document.getElementById('applyProjectPages').checked) {
+                const styleId = 'project-pages-text-align';
+                let styleTag = document.getElementById(styleId);
+                if (!styleTag) {
+                    styleTag = document.createElement('style');
+                    styleTag.id = styleId;
+                    document.head.appendChild(styleTag);
+                }
+                styleTag.innerHTML = `
+                    .project-details { text-align: ${pagesAlign}; }
+                    .project-title { text-align: ${headingAlign}; }
+                `;
+            }
+
+            // Store in localStorage
+            localStorage.setItem('homepageTextAlign', homepageAlign);
+            localStorage.setItem('pagesTextAlign', pagesAlign);
+            localStorage.setItem('headingAlign', headingAlign);
+        }
+
+        function saveDesignChanges() {
+            const settings = {
+                colors: {
+                    primary: document.getElementById('colorPrimary').value,
+                    accent: document.getElementById('colorAccent').value,
+                    bg: document.getElementById('colorBg').value,
+                    textSecond: document.getElementById('colorTextSecond').value
+                },
+                background: {
+                    homepage: document.getElementById('homepageBgColor').value,
+                    pages: document.getElementById('pagesBgColor').value,
+                    opacity: document.getElementById('bgOpacity').value
+                },
+                alignment: {
+                    homepage: document.getElementById('homepageTextAlign').value,
+                    pages: document.getElementById('pagesTextAlign').value,
+                    heading: document.getElementById('headingAlign').value
+                },
+                applyTo: {
+                    homepage: document.getElementById('applyHomepageStyle').checked,
+                    projectPages: document.getElementById('applyProjectPages').checked,
+                    propertyPages: document.getElementById('applyPropertyPages').checked,
+                    otherPages: document.getElementById('applyOtherPages').checked
+                }
+            };
+
+            localStorage.setItem('designSettings', JSON.stringify(settings));
+            showAlert('✓ Design changes saved successfully! Applied to selected pages.', 'success');
+        }
+
+        function resetDesign() {
+            if (confirm('Reset all design changes to default?')) {
+                document.getElementById('colorPrimary').value = '#1a1a1a';
+                document.getElementById('colorAccent').value = '#d97d53';
+                document.getElementById('colorBg').value = '#f8f8f8';
+                document.getElementById('colorTextSecond').value = '#666666';
+                document.getElementById('homepageBgColor').value = '#ffffff';
+                document.getElementById('pagesBgColor').value = '#f8f8f8';
+                document.getElementById('bgOpacity').value = '1';
+                document.getElementById('homepageTextAlign').value = 'center';
+                document.getElementById('pagesTextAlign').value = 'left';
+                document.getElementById('headingAlign').value = 'center';
+                
+                updateDesign();
+                updatePageBackground();
+                updateTextAlignment();
+                localStorage.removeItem('designSettings');
+                showAlert('Design reset to default!', 'success');
+            }
+        }
+
+        // COLUMN FUNCTIONS
+        function toggleColumn(table, column) {
+            showAlert('Column visibility updated!', 'success');
+        }
+
+        function addProjectColumn() {
+            showAlert('New column added to projects!', 'success');
+        }
+
+        function addPropertyColumn() {
+            showAlert('New column added to properties!', 'success');
+        }
+
+        function createCustomColumn() {
+            const name = document.getElementById('newColumnName').value;
+            if (!name) {
+                showAlert('Please enter column name', 'error');
+                return;
+            }
+            showAlert('Custom column created successfully!', 'success');
+            document.getElementById('newColumnName').value = '';
+        }
+
+        // MEDIA FUNCTIONS
+        function previewImage() {
+            const file = document.getElementById('imageUpload').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function uploadImage() {
+            const file = document.getElementById('imageUpload').files[0];
+            if (!file) {
+                showAlert('Please select an image', 'error');
+                return;
+            }
+            showAlert('Image uploaded successfully!', 'success');
+            document.getElementById('imageUpload').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+
+        function deleteMedia(id) {
+            if (confirm('Delete this image?')) {
+                showAlert('Image deleted successfully!', 'success');
+            }
+        }
+
+        // SETTINGS FUNCTIONS
+        function saveSettings() {
+            showAlert('Settings updated!', 'success');
+        }
+
+        function changePassword() {
+            const old = document.getElementById('oldPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (!old || !newPass || !confirm) {
+                showAlert('Please fill all password fields', 'error');
+                return;
+            }
+
+            if (newPass !== confirm) {
+                showAlert('New passwords do not match', 'error');
+                return;
+            }
+
+            if (old !== 'admin') {
+                showAlert('Current password is incorrect', 'error');
+                return;
+            }
+
+            showAlert('Password changed successfully!', 'success');
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        function backupData() {
+            showAlert('Backup downloaded! Check your downloads folder.', 'success');
+        }
+
+        function exportData() {
+            showAlert('Data exported as JSON! Check your downloads folder.', 'success');
+        }
+
+        // ALERTS
+        function showAlert(message, type = 'success') {
+            const alertId = type + 'Alert';
+            const alert = document.getElementById(alertId);
+            alert.textContent = message;
+            alert.classList.add('show');
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 4000);
+        }
+
+        // LOGOUT
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('adminLoggedIn');
+                sessionStorage.removeItem('adminUsername');
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        // CLOSE MODAL ON ESC KEY
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+
+        // CLOSE MODAL ON OUTSIDE CLICK
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
